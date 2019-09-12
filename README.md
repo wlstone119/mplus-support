@@ -3,8 +3,112 @@
 
 源码改造点：
 
+mybatisPuls generator生成文件结构为：
 ![Image text](https://raw.githubusercontent.com/wlstone119/img/master/20190912122500.jpg)
+
+修改为：
 ![Image text](https://raw.githubusercontent.com/wlstone119/img/master/20190912123547.jpg)
+
+增加packageConfigList循环生成文件：
+
+public ConfigBuilder(List<PackageConfig> configList, DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
+                         TemplateConfig template, GlobalConfig globalConfig){
+        // 全局配置
+        if (null == globalConfig) {
+            this.globalConfig = new GlobalConfig();
+        } else {
+            this.globalConfig = globalConfig;
+        }
+        // 模板配置
+        if (null == template) {
+            this.template = new TemplateConfig();
+        } else {
+            this.template = template;
+        }
+        // 包配置
+        if (CollectionUtils.isEmpty(configList)) {
+            handlerPackage(this.template, this.globalConfig.getOutputDir(), new ArrayList<PackageConfig>());
+        } else {
+            handlerPackage(this.template, this.globalConfig.getOutputDir(), configList);
+        }
+        this.dataSourceConfig = dataSourceConfig;
+        handlerDataSource(dataSourceConfig);
+        // 策略配置
+        if (null == strategyConfig) {
+            this.strategyConfig = new StrategyConfig();
+        } else {
+            this.strategyConfig = strategyConfig;
+        }
+        handlerStrategy(this.strategyConfig);
+    }
+
+    private void handlerPackage(TemplateConfig template, String outputDir, List<PackageConfig> configList) {
+        packageInfo = new HashMap<>();
+        pathInfo = new HashMap<>();
+
+        for(PackageConfig config : configList) {
+            if (StringUtils.isNotEmpty(config.getEntity())) {
+                packageInfo.put(ConstVal.ENTITY, joinPackage(config.getParent(), config.getEntity()));
+                // 生成路径信息
+                if (StringUtils.isNotEmpty(template.getEntity(getGlobalConfig().isKotlin()))) {
+                    pathInfo.put(ConstVal.ENTITY_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.ENTITY)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getMapper())) {
+                packageInfo.put(ConstVal.MAPPER, joinPackage(config.getParent(), config.getMapper()));
+                if (StringUtils.isNotEmpty(template.getMapper())) {
+                    pathInfo.put(ConstVal.MAPPER_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.MAPPER)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getXml())) {
+                packageInfo.put(ConstVal.XML, joinPackage(config.getParent(), config.getXml()));
+                if (StringUtils.isNotEmpty(template.getXml())) {
+                    pathInfo.put(ConstVal.XML_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.XML)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getService())) {
+                packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
+                if (StringUtils.isNotEmpty(template.getService())) {
+                    pathInfo.put(ConstVal.SERIVCE_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERIVCE)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getServiceImpl())) {
+                packageInfo.put(ConstVal.SERVICEIMPL, joinPackage(config.getParent(), config.getServiceImpl()));
+                if (StringUtils.isNotEmpty(template.getServiceImpl())) {
+                    pathInfo.put(ConstVal.SERVICEIMPL_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERVICEIMPL)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getController())) {
+                packageInfo.put(ConstVal.CONTROLLER, joinPackage(config.getParent(), config.getController()));
+                if (StringUtils.isNotEmpty(template.getController())) {
+                    pathInfo.put(ConstVal.CONTROLLER_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.CONTROLLER)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getFacacde())) {
+                packageInfo.put(ConstVal.FACADE, joinPackage(config.getParent(), config.getFacacde()));
+                if (StringUtils.isNotEmpty(template.getFacade())) {
+                    pathInfo.put(ConstVal.FACADE_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.FACADE)));
+                }
+            }
+            if (StringUtils.isNotEmpty(config.getFacacdeImpl())) {
+                packageInfo.put(ConstVal.FACADEIMPL, joinPackage(config.getParent(), config.getFacacdeImpl()));
+                if (StringUtils.isNotEmpty(template.getServiceImpl())) {
+                    pathInfo.put(ConstVal.FACADEIMPL_PATH,
+                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.FACADEIMPL)));
+                }
+            }
+        }
+
+    }
+
+# 生成文件demo如下：
 
 
 public class Generator {
@@ -23,7 +127,7 @@ public class Generator {
                 .setBaseResultMap(true)// XML ResultMap
                 .setBaseColumnList(true)// XML columList
                 // .setKotlin(true) 是否生成 kotlin 代码
-                //.setAuthor("xuxu")
+                //.setAuthor("wanglei")
                 .setAuthor(author)
                 // 自定义文件命名，注意 %s 会自动填充表实体属性！
                 .setMapperName("%sMapper").setXmlName("%sMapper");
