@@ -11,37 +11,6 @@ mybatisPuls generator生成文件结构为：
 
 增加packageConfigList循环生成文件：
 
-public ConfigBuilder(List<PackageConfig> configList, DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
-                         TemplateConfig template, GlobalConfig globalConfig){
-        // 全局配置
-        if (null == globalConfig) {
-            this.globalConfig = new GlobalConfig();
-        } else {
-            this.globalConfig = globalConfig;
-        }
-        // 模板配置
-        if (null == template) {
-            this.template = new TemplateConfig();
-        } else {
-            this.template = template;
-        }
-        // 包配置
-        if (CollectionUtils.isEmpty(configList)) {
-            handlerPackage(this.template, this.globalConfig.getOutputDir(), new ArrayList<PackageConfig>());
-        } else {
-            handlerPackage(this.template, this.globalConfig.getOutputDir(), configList);
-        }
-        this.dataSourceConfig = dataSourceConfig;
-        handlerDataSource(dataSourceConfig);
-        // 策略配置
-        if (null == strategyConfig) {
-            this.strategyConfig = new StrategyConfig();
-        } else {
-            this.strategyConfig = strategyConfig;
-        }
-        handlerStrategy(this.strategyConfig);
-    }
-
     private void handlerPackage(TemplateConfig template, String outputDir, List<PackageConfig> configList) {
         packageInfo = new HashMap<>();
         pathInfo = new HashMap<>();
