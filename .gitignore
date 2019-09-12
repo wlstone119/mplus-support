@@ -1,0 +1,17 @@
+MANIFEST.MF
+target/
+.svn/
+*.swp
+*.iml
+.gradle
+/local.properties
+.idea/
+/build
+.project
+.settings/
+.classpath
+*.ipr
+*.iws
+*.pyc
+.DS_Store
+_cat/

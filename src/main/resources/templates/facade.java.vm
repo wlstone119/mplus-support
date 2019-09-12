@@ -1,0 +1,20 @@
+package ${package.Facade};
+
+import ${package.Entity}.${entity};
+import ${superFacadeClassPackage};
+
+/**
+ * <p>
+ * $!{table.comment} 服务类
+ * </p>
+ *
+ * @author ${author}
+ * @since ${date}
+ */
+#if(${kotlin})
+interface ${table.facadeName} : ${superFacadeClass}<${entity}>
+#else
+public interface ${table.facadeName} extends ${superFacadeClass}<${entity}> {
+
+}
+#end
