@@ -3,7 +3,7 @@
 
 源码改造主要有两点：
 
-### 1、重写service接口，抽取日常开发中常用的方法且便于自行管理，还能减少应用启动成本。
+#### 1、重写service接口，抽取日常开发中常用的方法且便于自行管理，还能减少应用启动成本。
 
 public interface IMPService<T>{
 
@@ -14,7 +14,7 @@ public class MPServiceImpl<M extends BaseMapper<T>, T> implements IMPService<T>{
 }
 
 
-### 2、重写generator模块，达到定制化输出文件目录，实现如下：
+#### 2、重写generator模块，达到定制化输出文件目录，实现如下：
 
 mybatisPuls generator生成文件结构为：
 ![Image text](https://raw.githubusercontent.com/wlstone119/img/master/20190912122500.jpg)
