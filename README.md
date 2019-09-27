@@ -161,8 +161,6 @@ public class Generator {
                                 .setSuperServiceClass("com.baomidou.mybatisplus.service.IService")
                                 // 自定义 service 实现类父类
                                 .setSuperServiceImplClass("com.baomidou.mybatisplus.service.impl.ServiceImpl")
-                        // 自定义 controller 父类
-                        // .setSuperControllerClass("com.weidai.demo.TestController")
                         // 【实体】是否生成字段常量（默认 false）
                         // public static final String ID = "test_id";
                         // .setEntityColumnConstant(true)
@@ -292,7 +290,7 @@ public class WlGenerator {
         
         
         // 作者
-        String author = "stone";
+        String author = "wanglei";
         // 文件目录
         final String dir = "XX";
         // 本地项目路径
