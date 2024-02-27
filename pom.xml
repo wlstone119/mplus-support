@@ -92,13 +92,15 @@
 	</build>
 
 	<!-- 用于上传远程maven私服的配置 -->
-	<distributionManagement>
-		<repository>
-			
-		</repository>
-		<snapshotRepository>
-			
-		</snapshotRepository>
-	</distributionManagement>
+    <distributionManagement>
+        <snapshotRepository>
+            <id>archjava</id>
+            <url>http://maven.hellobike.cn/nexus/content/repositories/carkey-archjava-snapshots/</url>
+        </snapshotRepository>
+        <repository>
+            <id>archjava</id>
+            <url>http://maven.hellobike.cn/nexus/content/repositories/carkey-archjava-release/</url>
+        </repository>
+    </distributionManagement>
 
 </project>
