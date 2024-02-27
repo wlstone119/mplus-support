@@ -51,7 +51,7 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<version>${org.projectlombok.version}</version>
-			<scope>compile</scope>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 
