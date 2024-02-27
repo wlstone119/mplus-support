@@ -1,15 +1,3 @@
-/**
- * Copyright (c) 2011-2020, hubin (jobob@qq.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with
- * the License. You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software distributed under the License is distributed on
- * an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the
- * specific language governing permissions and limitations under the License.
- */
 package com.ripple.mplus.generator.config.builder;
 
 import java.io.File;
@@ -18,33 +6,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
-
-import com.baomidou.mybatisplus.toolkit.StringUtils;
+import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.generator.config.ConstVal;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.IDbQuery;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
+import com.baomidou.mybatisplus.generator.config.po.TableFill;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
+import com.baomidou.mybatisplus.generator.config.querys.H2Query;
+import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.ripple.mplus.generator.InjectionConfig;
-import com.ripple.mplus.generator.config.ConstVal;
-import com.ripple.mplus.generator.config.DataSourceConfig;
-import com.ripple.mplus.generator.config.GlobalConfig;
-import com.ripple.mplus.generator.config.PackageConfig;
-import com.ripple.mplus.generator.config.StrategyConfig;
-import com.ripple.mplus.generator.config.TemplateConfig;
-import com.ripple.mplus.generator.config.po.TableField;
-import com.ripple.mplus.generator.config.po.TableFill;
-import com.ripple.mplus.generator.config.po.TableInfo;
-import com.ripple.mplus.generator.config.rules.DbType;
-import com.ripple.mplus.generator.config.rules.NamingStrategy;
-import com.ripple.mplus.generator.config.rules.QuerySQL;
 
 /**
- * <p>
  * 配置汇总 传递给文件生成工具
- * </p>
  *
  * @author YangHu, tangguo, hubin
  * @since 2016-08-30
@@ -54,7 +42,7 @@ public class ConfigBuilder {
     /**
      * 模板路径配置信息
      */
-    private final TemplateConfig   template;
+    private final TemplateConfig template;
     /**
      * 数据库配置
      */
@@ -62,59 +50,55 @@ public class ConfigBuilder {
     /**
      * SQL连接
      */
-    private Connection             connection;
+    private Connection connection;
     /**
      * SQL语句类型
      */
-    private QuerySQL               querySQL;
-    private String                 superEntityClass;
-    private String                 superMapperClass;
+    private IDbQuery dbQuery;
+    private String superEntityClass;
+    private String superMapperClass;
     /**
      * service超类定义
      */
-    private String                 superServiceClass;
-    private String                 superServiceImplClass;
-    private String                 superControllerClass;
-    private String                 superFacadeClass;
-    private String                 superFacadeImplClass;
+    private String superServiceClass;
+    private String superServiceImplClass;
+    private String superControllerClass;
     /**
      * 数据库表信息
      */
-    private List<TableInfo>        tableInfoList;
+    private List<TableInfo> tableInfoList;
     /**
      * 包配置详情
      */
-    private Map<String, String>    packageInfo;
+    private Map<String, String> packageInfo;
     /**
      * 路径配置信息
      */
-    private Map<String, String>    pathInfo;
+    private Map<String, String> pathInfo;
     /**
      * 策略配置
      */
-    private StrategyConfig         strategyConfig;
+    private StrategyConfig strategyConfig;
     /**
      * 全局配置信息
      */
-    private GlobalConfig           globalConfig;
+    private GlobalConfig globalConfig;
     /**
      * 注入配置信息
      */
-    private InjectionConfig        injectionConfig;
+    private InjectionConfig injectionConfig;
 
     /**
-     * <p>
      * 在构造器中处理配置
-     * </p>
      *
-     * @param packageConfig 包配置
+     * @param configList    包配置
      * @param dataSourceConfig 数据源配置
-     * @param strategyConfig 表配置
-     * @param template 模板配置
-     * @param globalConfig 全局配置
+     * @param strategyConfig   表配置
+     * @param template         模板配置
+     * @param globalConfig     全局配置
      */
     public ConfigBuilder(List<PackageConfig> configList, DataSourceConfig dataSourceConfig, StrategyConfig strategyConfig,
-                         TemplateConfig template, GlobalConfig globalConfig){
+                         TemplateConfig template, GlobalConfig globalConfig) {
         // 全局配置
         if (null == globalConfig) {
             this.globalConfig = new GlobalConfig();
@@ -147,9 +131,7 @@ public class ConfigBuilder {
     // ************************ 曝露方法 BEGIN*****************************
 
     /**
-     * <p>
      * 所有包配置信息
-     * </p>
      *
      * @return 包配置
      */
@@ -158,9 +140,7 @@ public class ConfigBuilder {
     }
 
     /**
-     * <p>
      * 所有路径配置
-     * </p>
      *
      * @return 路径配置
      */
@@ -177,9 +157,7 @@ public class ConfigBuilder {
     }
 
     /**
-     * <p>
      * 获取超类定义
-     * </p>
      *
      * @return 完整超类名称
      */
@@ -195,26 +173,8 @@ public class ConfigBuilder {
         return superControllerClass;
     }
 
-    public String getSuperFacadeClass() {
-        return superFacadeClass;
-    }
-
-    public void setSuperFacadeClass(String superFacadeClass) {
-        this.superFacadeClass = superFacadeClass;
-    }
-
-    public String getSuperFacadeImplClass() {
-        return superFacadeImplClass;
-    }
-
-    public void setSuperFacadeImplClass(String superFacadeImplClass) {
-        this.superFacadeImplClass = superFacadeImplClass;
-    }
-
     /**
-     * <p>
      * 表信息
-     * </p>
      *
      * @return 所有表信息
      */
@@ -228,9 +188,7 @@ public class ConfigBuilder {
     }
 
     /**
-     * <p>
      * 模板路径配置信息
-     * </p>
      *
      * @return 所以模板路径配置信息
      */
@@ -241,13 +199,11 @@ public class ConfigBuilder {
     // ****************************** 曝露方法 END**********************************
 
     /**
-     * <p>
      * 处理包配置
-     * </p>
      *
-     * @param template TemplateConfig
+     * @param template  TemplateConfig
      * @param outputDir
-     * @param config PackageConfig
+     * @param configList    PackageConfig
      */
     private void handlerPackage(TemplateConfig template, String outputDir, List<PackageConfig> configList) {
         packageInfo = new HashMap<>();
@@ -259,78 +215,52 @@ public class ConfigBuilder {
                 // 生成路径信息
                 if (StringUtils.isNotEmpty(template.getEntity(getGlobalConfig().isKotlin()))) {
                     pathInfo.put(ConstVal.ENTITY_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.ENTITY)));
+                            joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.ENTITY)));
                 }
             }
             if (StringUtils.isNotEmpty(config.getMapper())) {
                 packageInfo.put(ConstVal.MAPPER, joinPackage(config.getParent(), config.getMapper()));
                 if (StringUtils.isNotEmpty(template.getMapper())) {
                     pathInfo.put(ConstVal.MAPPER_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.MAPPER)));
+                            joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.MAPPER)));
                 }
             }
             if (StringUtils.isNotEmpty(config.getXml())) {
                 packageInfo.put(ConstVal.XML, joinPackage(config.getParent(), config.getXml()));
                 if (StringUtils.isNotEmpty(template.getXml())) {
                     pathInfo.put(ConstVal.XML_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.XML)));
+                            joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.XML)));
                 }
             }
             if (StringUtils.isNotEmpty(config.getService())) {
-                packageInfo.put(ConstVal.SERIVCE, joinPackage(config.getParent(), config.getService()));
+                packageInfo.put(ConstVal.SERVICE, joinPackage(config.getParent(), config.getService()));
                 if (StringUtils.isNotEmpty(template.getService())) {
-                    pathInfo.put(ConstVal.SERIVCE_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERIVCE)));
+                    pathInfo.put(ConstVal.SERVICE_PATH,
+                            joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERVICE)));
                 }
             }
             if (StringUtils.isNotEmpty(config.getServiceImpl())) {
-                packageInfo.put(ConstVal.SERVICEIMPL, joinPackage(config.getParent(), config.getServiceImpl()));
+                packageInfo.put(ConstVal.SERVICE_IMPL, joinPackage(config.getParent(), config.getServiceImpl()));
                 if (StringUtils.isNotEmpty(template.getServiceImpl())) {
-                    pathInfo.put(ConstVal.SERVICEIMPL_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERVICEIMPL)));
-                }
-            }
-            if (StringUtils.isNotEmpty(config.getController())) {
-                packageInfo.put(ConstVal.CONTROLLER, joinPackage(config.getParent(), config.getController()));
-                if (StringUtils.isNotEmpty(template.getController())) {
-                    pathInfo.put(ConstVal.CONTROLLER_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.CONTROLLER)));
-                }
-            }
-            if (StringUtils.isNotEmpty(config.getFacacde())) {
-                packageInfo.put(ConstVal.FACADE, joinPackage(config.getParent(), config.getFacacde()));
-                if (StringUtils.isNotEmpty(template.getFacade())) {
-                    pathInfo.put(ConstVal.FACADE_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.FACADE)));
-                }
-            }
-            if (StringUtils.isNotEmpty(config.getFacacdeImpl())) {
-                packageInfo.put(ConstVal.FACADEIMPL, joinPackage(config.getParent(), config.getFacacdeImpl()));
-                if (StringUtils.isNotEmpty(template.getServiceImpl())) {
-                    pathInfo.put(ConstVal.FACADEIMPL_PATH,
-                                 joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.FACADEIMPL)));
+                    pathInfo.put(ConstVal.SERVICE_IMPL_PATH,
+                            joinPath(outputDir, config.getModuleName() + "." + packageInfo.get(ConstVal.SERVICE_IMPL)));
                 }
             }
         }
-
     }
 
     /**
-     * <p>
      * 处理数据源配置
-     * </p>
      *
      * @param config DataSourceConfig
      */
     private void handlerDataSource(DataSourceConfig config) {
         connection = config.getConn();
-        querySQL = getQuerySQL(config.getDbType());
+        dbQuery = config.getDbQuery();
     }
 
     /**
-     * <p>
      * 处理数据库表 加载数据库表、列、注释相关数据集
-     * </p>
      *
      * @param config StrategyConfig
      */
@@ -340,148 +270,110 @@ public class ConfigBuilder {
     }
 
     /**
-     * <p>
      * 处理superClassName,IdClassType,IdStrategy配置
-     * </p>
      *
      * @param config 策略配置
      */
     private void processTypes(StrategyConfig config) {
         if (StringUtils.isEmpty(config.getSuperServiceClass())) {
-            superServiceClass = ConstVal.SUPERD_SERVICE_CLASS;
+            superServiceClass = ConstVal.SUPER_SERVICE_CLASS;
         } else {
             superServiceClass = config.getSuperServiceClass();
         }
         if (StringUtils.isEmpty(config.getSuperServiceImplClass())) {
-            superServiceImplClass = ConstVal.SUPERD_SERVICEIMPL_CLASS;
+            superServiceImplClass = ConstVal.SUPER_SERVICE_IMPL_CLASS;
         } else {
             superServiceImplClass = config.getSuperServiceImplClass();
         }
         if (StringUtils.isEmpty(config.getSuperMapperClass())) {
-            superMapperClass = ConstVal.SUPERD_MAPPER_CLASS;
+            superMapperClass = ConstVal.SUPER_MAPPER_CLASS;
         } else {
             superMapperClass = config.getSuperMapperClass();
         }
         superEntityClass = config.getSuperEntityClass();
         superControllerClass = config.getSuperControllerClass();
-
-        if (StringUtils.isEmpty(config.getSuperFacadeClass())) {
-            superFacadeClass = ConstVal.SUPERD_FACADE_CLASS;
-        } else {
-            superFacadeClass = config.getSuperFacadeClass();
-        }
-        if (StringUtils.isEmpty(config.getSuperFacadeImplClass())) {
-            superFacadeImplClass = ConstVal.SUPERD_FACADEIMPL_CLASS;
-        } else {
-            superFacadeImplClass = config.getSuperFacadeImplClass();
-        }
     }
 
     /**
-     * <p>
      * 处理表对应的类名称
-     * </P>
      *
      * @param tableList 表名称
-     * @param strategy 命名策略
-     * @param config 策略配置项
+     * @param strategy  命名策略
+     * @param config    策略配置项
      * @return 补充完整信息后的表
      */
     private List<TableInfo> processTable(List<TableInfo> tableList, NamingStrategy strategy, StrategyConfig config) {
         String[] tablePrefix = config.getTablePrefix();
-        String[] fieldPrefix = config.getFieldPrefix();
         for (TableInfo tableInfo : tableList) {
-            tableInfo.setEntityName(strategyConfig, NamingStrategy.capitalFirst(processName(tableInfo.getName(),
-                                                                                            strategy, tablePrefix)));
-            if (StringUtils.isNotEmpty(globalConfig.getMapperName())) {
-                tableInfo.setMapperName(String.format(globalConfig.getMapperName(), tableInfo.getEntityName()));
+            String entityName = NamingStrategy.capitalFirst(processName(tableInfo.getName(), strategy, tablePrefix));
+            if (StringUtils.isNotEmpty(globalConfig.getEntityName())) {
+                tableInfo.setConvert(true);
+                tableInfo.setEntityName(String.format(globalConfig.getEntityName(), entityName));
             } else {
-                tableInfo.setMapperName(tableInfo.getEntityName() + ConstVal.MAPPER);
+                tableInfo.setEntityName(strategyConfig, entityName);
+            }
+            if (StringUtils.isNotEmpty(globalConfig.getMapperName())) {
+                tableInfo.setMapperName(String.format(globalConfig.getMapperName(), entityName));
+            } else {
+                tableInfo.setMapperName(entityName + ConstVal.MAPPER);
             }
             if (StringUtils.isNotEmpty(globalConfig.getXmlName())) {
-                tableInfo.setXmlName(String.format(globalConfig.getXmlName(), tableInfo.getEntityName()));
+                tableInfo.setXmlName(String.format(globalConfig.getXmlName(), entityName));
             } else {
-                tableInfo.setXmlName(tableInfo.getEntityName() + ConstVal.MAPPER);
+                tableInfo.setXmlName(entityName + ConstVal.MAPPER);
             }
             if (StringUtils.isNotEmpty(globalConfig.getServiceName())) {
-                tableInfo.setServiceName(String.format(globalConfig.getServiceName(),
-                                                       tableInfo.getEntityName()).replace("Do", ""));
+                tableInfo.setServiceName(String.format(globalConfig.getServiceName(), entityName));
             } else {
-                tableInfo.setServiceName(("I" + tableInfo.getEntityName() + ConstVal.SERIVCE).replaceAll("Do", ""));
+                tableInfo.setServiceName("I" + entityName + ConstVal.SERVICE);
             }
             if (StringUtils.isNotEmpty(globalConfig.getServiceImplName())) {
-                tableInfo.setServiceImplName(String.format(globalConfig.getServiceImplName(),
-                                                           tableInfo.getEntityName()).replace("Do", ""));
+                tableInfo.setServiceImplName(String.format(globalConfig.getServiceImplName(), entityName));
             } else {
-                tableInfo.setServiceImplName((tableInfo.getEntityName() + ConstVal.SERVICEIMPL).replace("Do", ""));
+                tableInfo.setServiceImplName(entityName + ConstVal.SERVICE_IMPL);
             }
             if (StringUtils.isNotEmpty(globalConfig.getControllerName())) {
-                tableInfo.setControllerName(String.format(globalConfig.getControllerName(), tableInfo.getEntityName()).replace("Do", ""));
+                tableInfo.setControllerName(String.format(globalConfig.getControllerName(), entityName));
+            } else {
+                tableInfo.setControllerName(entityName + ConstVal.CONTROLLER);
             }
-
-            if (StringUtils.isNotEmpty(globalConfig.getFacadeName())) {
-                tableInfo.setFacadeName(String.format(globalConfig.getFacadeName(),
-                                                      tableInfo.getEntityName()).replace("Do", ""));
-            } 
-            if (StringUtils.isNotEmpty(globalConfig.getFacadeImplName())) {
-                tableInfo.setFacadeImplName(String.format(globalConfig.getFacadeImplName(),
-                                                          tableInfo.getEntityName()).replace("Do", ""));
-            }
-
-            // 强制开启字段注解
-            checkTableIdTableFieldAnnotation(config, tableInfo, fieldPrefix);
+            // 检测导入包
+            checkImportPackages(tableInfo);
         }
         return tableList;
     }
 
     /**
-     * <p>
-     * 检查是否有 {@link com.baomidou.mybatisplus.annotations.TableId}
-     * {@link com.baomidou.mybatisplus.annotations.TableField} 注解
-     * </p>
+     * 检测导入包
      *
-     * @param config
-     * @param tableInfo
-     * @param fieldPrefix
+     * @param tableInfo ignore
      */
-    private void checkTableIdTableFieldAnnotation(StrategyConfig config, TableInfo tableInfo, String[] fieldPrefix) {
-        boolean importTableFieldAnnotaion = false;
-        boolean importTableIdAnnotaion = false;
-        if (config.isEntityTableFieldAnnotationEnable()) {
-            for (TableField tf : tableInfo.getFields()) {
-                tf.setConvert(true);
-                importTableFieldAnnotaion = true;
-                importTableIdAnnotaion = true;
-            }
-        } else if (fieldPrefix != null && fieldPrefix.length != 0) {
-            for (TableField tf : tableInfo.getFields()) {
-                if (NamingStrategy.isPrefixContained(tf.getName(), fieldPrefix)) {
-                    if (tf.isKeyFlag()) {
-                        importTableIdAnnotaion = true;
-                    }
-                    tf.setConvert(true);
-                    importTableFieldAnnotaion = true;
+    private void checkImportPackages(TableInfo tableInfo) {
+        if (StringUtils.isNotEmpty(strategyConfig.getSuperEntityClass())) {
+            // 自定义父类
+            tableInfo.getImportPackages().add(strategyConfig.getSuperEntityClass());
+        } else if (globalConfig.isActiveRecord()) {
+            // 无父类开启 AR 模式
+            tableInfo.getImportPackages()
+                    .add(com.baomidou.mybatisplus.extension.activerecord.Model.class.getCanonicalName());
+        }
+        if (null != globalConfig.getIdType()) {
+            // 指定需要 IdType 场景
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.IdType.class.getCanonicalName());
+            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotation.TableId.class.getCanonicalName());
+        }
+        if (StringUtils.isNotEmpty(strategyConfig.getVersionFieldName())) {
+            tableInfo.getFields().forEach(f -> {
+                if (strategyConfig.getVersionFieldName().equals(f.getName())) {
+                    tableInfo.getImportPackages()
+                            .add(com.baomidou.mybatisplus.annotation.Version.class.getCanonicalName());
                 }
-            }
-        }
-        if (importTableFieldAnnotaion) {
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotations.TableField.class.getCanonicalName());
-        }
-        if (importTableIdAnnotaion) {
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotations.TableId.class.getCanonicalName());
-        }
-        if (globalConfig.getIdType() != null) {
-            if (!importTableIdAnnotaion) {
-                tableInfo.getImportPackages().add(com.baomidou.mybatisplus.annotations.TableId.class.getCanonicalName());
-            }
-            tableInfo.getImportPackages().add(com.baomidou.mybatisplus.enums.IdType.class.getCanonicalName());
+            });
         }
     }
 
     /**
-     * <p>
      * 获取所有的数据库表信息
-     * </p>
      */
     private List<TableInfo> getTablesInfo(StrategyConfig config) {
         boolean isInclude = (null != config.getInclude() && config.getInclude().length > 0);
@@ -498,69 +390,85 @@ public class ConfigBuilder {
 
         // 不存在的表名
         Set<String> notExistTables = new HashSet<>();
-        PreparedStatement preparedStatement = null;
         try {
-            String tableCommentsSql = querySQL.getTableCommentsSql();
-            if (QuerySQL.POSTGRE_SQL == querySQL) {
-                tableCommentsSql = String.format(tableCommentsSql, dataSourceConfig.getSchemaname());
+            String tablesSql = dbQuery.tablesSql();
+            if (DbType.POSTGRE_SQL == dbQuery.dbType()) {
+                String schema = dataSourceConfig.getSchemaName();
+                if (schema == null) {
+                    // pg默认schema=public
+                    schema = "public";
+                    dataSourceConfig.setSchemaName(schema);
+                }
+                tablesSql = String.format(tablesSql, schema);
             }
             // oracle数据库表太多，出现最大游标错误
-            else if (QuerySQL.ORACLE == querySQL) {
+            else if (DbType.ORACLE == dbQuery.dbType()) {
+                String schema = dataSourceConfig.getSchemaName();
+                // oracle默认用户的schema=username
+                if (schema == null) {
+                    schema = dataSourceConfig.getUsername().toUpperCase();
+                    dataSourceConfig.setSchemaName(schema);
+                }
+                tablesSql = String.format(tablesSql, schema);
                 if (isInclude) {
-                    StringBuilder sb = new StringBuilder(tableCommentsSql);
-                    sb.append(" WHERE ").append(querySQL.getTableName()).append(" IN (");
-                    for (String tbname : config.getInclude()) {
-                        sb.append("'").append(tbname.toUpperCase()).append("',");
-                    }
-                    sb.replace(sb.length() - 1, sb.length(), ")");
-                    tableCommentsSql = sb.toString();
+                    StringBuilder sb = new StringBuilder(tablesSql);
+                    sb.append(" AND ").append(dbQuery.tableName()).append(" IN (");
+                    Arrays.stream(config.getInclude()).forEach(
+                            tbname -> sb.append(StringPool.SINGLE_QUOTE).append(tbname.toUpperCase()).append("',"));
+                    sb.replace(sb.length() - 1, sb.length(), StringPool.RIGHT_BRACKET);
+                    tablesSql = sb.toString();
                 } else if (isExclude) {
-                    StringBuilder sb = new StringBuilder(tableCommentsSql);
-                    sb.append(" WHERE ").append(querySQL.getTableName()).append(" NOT IN (");
-                    for (String tbname : config.getExclude()) {
-                        sb.append("'").append(tbname.toUpperCase()).append("',");
-                    }
-                    sb.replace(sb.length() - 1, sb.length(), ")");
-                    tableCommentsSql = sb.toString();
+                    StringBuilder sb = new StringBuilder(tablesSql);
+                    sb.append(" AND ").append(dbQuery.tableName()).append(" NOT IN (");
+                    Arrays.stream(config.getExclude()).forEach(
+                            tbname -> sb.append(StringPool.SINGLE_QUOTE).append(tbname.toUpperCase()).append("',"));
+                    sb.replace(sb.length() - 1, sb.length(), StringPool.RIGHT_BRACKET);
+                    tablesSql = sb.toString();
                 }
             }
-            preparedStatement = connection.prepareStatement(tableCommentsSql);
-            ResultSet results = preparedStatement.executeQuery();
             TableInfo tableInfo;
-            while (results.next()) {
-                String tableName = results.getString(querySQL.getTableName());
-                if (StringUtils.isNotEmpty(tableName)) {
-                    String tableComment = results.getString(querySQL.getTableComment());
-                    tableInfo = new TableInfo();
-                    tableInfo.setName(tableName);
-                    tableInfo.setComment(tableComment);
-                    if (isInclude) {
-                        for (String includeTab : config.getInclude()) {
-                            if (includeTab.equalsIgnoreCase(tableName)) {
-                                includeTableList.add(tableInfo);
-                            } else {
-                                notExistTables.add(includeTab);
+            try (PreparedStatement preparedStatement = connection.prepareStatement(tablesSql);
+                 ResultSet results = preparedStatement.executeQuery()) {
+                while (results.next()) {
+                    String tableName = results.getString(dbQuery.tableName());
+                    if (StringUtils.isNotEmpty(tableName)) {
+                        String tableComment = results.getString(dbQuery.tableComment());
+                        if (config.isSkipView() && "VIEW".equals(tableComment)) {
+                            // 跳过视图
+                            continue;
+                        }
+                        tableInfo = new TableInfo();
+                        tableInfo.setName(tableName);
+                        tableInfo.setComment(tableComment);
+                        if (isInclude) {
+                            for (String includeTable : config.getInclude()) {
+                                // 忽略大小写等于 或 正则 true
+                                if (tableNameMatches(includeTable, tableName)) {
+                                    includeTableList.add(tableInfo);
+                                } else {
+                                    notExistTables.add(includeTable);
+                                }
+                            }
+                        } else if (isExclude) {
+                            for (String excludeTable : config.getExclude()) {
+                                // 忽略大小写等于 或 正则 true
+                                if (tableNameMatches(excludeTable, tableName)) {
+                                    excludeTableList.add(tableInfo);
+                                } else {
+                                    notExistTables.add(excludeTable);
+                                }
                             }
                         }
-                    } else if (isExclude) {
-                        for (String excludeTab : config.getExclude()) {
-                            if (excludeTab.equalsIgnoreCase(tableName)) {
-                                excludeTableList.add(tableInfo);
-                            } else {
-                                notExistTables.add(excludeTab);
-                            }
-                        }
+                        tableList.add(tableInfo);
+                    } else {
+                        System.err.println("当前数据库为空！！！");
                     }
-                    tableList.add(tableInfo);
-                } else {
-                    System.err.println("当前数据库为空！！！");
                 }
             }
             // 将已经存在的表移除，获取配置中数据库不存在的表
             for (TableInfo tabInfo : tableList) {
                 notExistTables.remove(tabInfo.getName());
             }
-
             if (notExistTables.size() > 0) {
                 System.err.println("表 " + notExistTables + " 在数据库中不存在！！！");
             }
@@ -573,111 +481,121 @@ public class ConfigBuilder {
             if (!isInclude && !isExclude) {
                 includeTableList = tableList;
             }
-            /**
-             * 性能优化，只处理需执行表字段 github issues/219
-             */
-            for (TableInfo ti : includeTableList) {
-                this.convertTableFields(ti, config.getColumnNaming());
-            }
+            // 性能优化，只处理需执行表字段 github issues/219
+            includeTableList.forEach(ti -> convertTableFields(ti, config.getColumnNaming()));
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // 释放资源
-            try {
-                if (preparedStatement != null) {
-                    preparedStatement.close();
-                }
-                if (connection != null) {
-                    connection.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
         }
         return processTable(includeTableList, config.getNaming(), config);
     }
 
     /**
-     * <p>
-     * 判断主键是否为identity，目前仅对mysql进行检查
-     * </p>
+     * 表名匹配
      *
-     * @param results ResultSet
-     * @return 主键是否为identity
-     * @throws SQLException
+     * @param setTableName 设置表名
+     * @param dbTableName  数据库表单
+     * @return ignore
      */
-    private boolean isKeyIdentity(ResultSet results) throws SQLException {
-        if (QuerySQL.MYSQL == this.querySQL) {
-            String extra = results.getString("Extra");
-            if ("auto_increment".equals(extra)) {
-                return true;
-            }
-        } else if (QuerySQL.SQL_SERVER == this.querySQL) {
-            int isIdentity = results.getInt("isIdentity");
-            return 1 == isIdentity;
-        }
-        return false;
+    private boolean tableNameMatches(String setTableName, String dbTableName) {
+        return setTableName.equals(dbTableName) || StringUtils.matches(setTableName, dbTableName);
     }
 
     /**
-     * <p>
      * 将字段信息与表信息关联
-     * </p>
      *
      * @param tableInfo 表信息
-     * @param strategy 命名策略
-     * @return
+     * @param strategy  命名策略
+     * @return ignore
      */
     private TableInfo convertTableFields(TableInfo tableInfo, NamingStrategy strategy) {
         boolean haveId = false;
         List<TableField> fieldList = new ArrayList<>();
         List<TableField> commonFieldList = new ArrayList<>();
+        DbType dbType = dbQuery.dbType();
+        String tableName = tableInfo.getName();
         try {
-            String tableFieldsSql = querySQL.getTableFieldsSql();
-            if (QuerySQL.POSTGRE_SQL == querySQL) {
-                tableFieldsSql = String.format(tableFieldsSql, dataSourceConfig.getSchemaname(), tableInfo.getName());
-            } else {
-                tableFieldsSql = String.format(tableFieldsSql, tableInfo.getName());
-            }
-            PreparedStatement preparedStatement = connection.prepareStatement(tableFieldsSql);
-            ResultSet results = preparedStatement.executeQuery();
-            while (results.next()) {
-                TableField field = new TableField();
-                String key = results.getString(querySQL.getFieldKey());
-                // 避免多重主键设置，目前只取第一个找到ID，并放到list中的索引为0的位置
-                boolean isId = StringUtils.isNotEmpty(key) && key.toUpperCase().equals("PRI");
-                // 处理ID
-                if (isId && !haveId) {
-                    field.setKeyFlag(true);
-                    if (isKeyIdentity(results)) {
-                        field.setKeyIdentityFlag(true);
-                    }
-                    haveId = true;
-                } else {
-                    field.setKeyFlag(false);
-                }
-                // 处理其它信息
-                field.setName(results.getString(querySQL.getFieldName()));
-                field.setType(results.getString(querySQL.getFieldType()));
-                field.setPropertyName(strategyConfig, processName(field.getName(), strategy));
-                field.setColumnType(dataSourceConfig.getTypeConvert().processTypeConvert(field.getType()));
-                field.setComment(results.getString(querySQL.getFieldComment()));
-                if (strategyConfig.includeSuperEntityColumns(field.getName())) {
-                    // 跳过公共字段
-                    commonFieldList.add(field);
-                    continue;
-                }
-                // 填充逻辑判断
-                List<TableFill> tableFillList = this.getStrategyConfig().getTableFillList();
-                if (null != tableFillList) {
-                    for (TableFill tableFill : tableFillList) {
-                        if (tableFill.getFieldName().equals(field.getName())) {
-                            field.setFill(tableFill.getFieldFill().name());
-                            break;
+            String tableFieldsSql = dbQuery.tableFieldsSql();
+            Set<String> h2PkColumns = new HashSet<>();
+            if (DbType.POSTGRE_SQL == dbType) {
+                tableFieldsSql = String.format(tableFieldsSql, dataSourceConfig.getSchemaName(), tableName);
+            } else if (DbType.ORACLE == dbType) {
+                tableName = tableName.toUpperCase();
+                tableFieldsSql = String.format(tableFieldsSql.replace("#schema", dataSourceConfig.getSchemaName()),
+                        tableName);
+            } else if (DbType.H2 == dbType) {
+                tableName = tableName.toUpperCase();
+                try (PreparedStatement pkQueryStmt = connection
+                        .prepareStatement(String.format(H2Query.PK_QUERY_SQL, tableName));
+                     ResultSet pkResults = pkQueryStmt.executeQuery()) {
+                    while (pkResults.next()) {
+                        String primaryKey = pkResults.getString(dbQuery.fieldKey());
+                        if (Boolean.valueOf(primaryKey)) {
+                            h2PkColumns.add(pkResults.getString(dbQuery.fieldName()));
                         }
                     }
                 }
-                fieldList.add(field);
+                tableFieldsSql = String.format(tableFieldsSql, tableName);
+            } else {
+                tableFieldsSql = String.format(tableFieldsSql, tableName);
+            }
+            try (PreparedStatement preparedStatement = connection.prepareStatement(tableFieldsSql);
+                 ResultSet results = preparedStatement.executeQuery()) {
+                while (results.next()) {
+                    TableField field = new TableField();
+                    String columnName = results.getString(dbQuery.fieldName());
+                    // 避免多重主键设置，目前只取第一个找到ID，并放到list中的索引为0的位置
+                    boolean isId;
+                    if (DbType.H2 == dbType) {
+                        isId = h2PkColumns.contains(columnName);
+                    } else {
+                        String key = results.getString(dbQuery.fieldKey());
+                        if (DbType.DB2 == dbType) {
+                            isId = StringUtils.isNotEmpty(key) && "1".equals(key);
+                        } else {
+                            isId = StringUtils.isNotEmpty(key) && "PRI".equals(key.toUpperCase());
+                        }
+                    }
+
+                    // 处理ID
+                    if (isId && !haveId) {
+                        field.setKeyFlag(true);
+                        if (DbType.H2 == dbType || dbQuery.isKeyIdentity(results)) {
+                            field.setKeyIdentityFlag(true);
+                        }
+                        haveId = true;
+                    } else {
+                        field.setKeyFlag(false);
+                    }
+                    // 自定义字段查询
+                    String[] fcs = dbQuery.fieldCustom();
+                    if (null != fcs) {
+                        Map<String, Object> customMap = new HashMap<>();
+                        for (String fc : fcs) {
+                            customMap.put(fc, results.getObject(fc));
+                        }
+                        field.setCustomMap(customMap);
+                    }
+                    // 处理其它信息
+                    field.setName(columnName);
+                    field.setType(results.getString(dbQuery.fieldType()));
+                    field.setPropertyName(strategyConfig, processName(field.getName(), strategy));
+                    field.setColumnType(
+                            dataSourceConfig.getTypeConvert().processTypeConvert(globalConfig, field.getType()));
+                    field.setComment(results.getString(dbQuery.fieldComment()));
+                    if (strategyConfig.includeSuperEntityColumns(field.getName())) {
+                        // 跳过公共字段
+                        commonFieldList.add(field);
+                        continue;
+                    }
+                    // 填充逻辑判断
+                    List<TableFill> tableFillList = getStrategyConfig().getTableFillList();
+                    if (null != tableFillList) {
+                        // 忽略大写字段问题
+                        tableFillList.stream().filter(tf -> tf.getFieldName().equalsIgnoreCase(field.getName()))
+                                .findFirst().ifPresent(tf -> field.setFill(tf.getFieldFill().name()));
+                    }
+                    fieldList.add(field);
+                }
             }
         } catch (SQLException e) {
             System.err.println("SQL Exception：" + e.getMessage());
@@ -688,11 +606,9 @@ public class ConfigBuilder {
     }
 
     /**
-     * <p>
      * 连接路径字符串
-     * </p>
      *
-     * @param parentDir 路径常量字符串
+     * @param parentDir   路径常量字符串
      * @param packageName 包名
      * @return 连接后的路径
      */
@@ -703,16 +619,14 @@ public class ConfigBuilder {
         if (!StringUtils.endsWith(parentDir, File.separator)) {
             parentDir += File.separator;
         }
-        packageName = packageName.replaceAll("\\.", "\\" + File.separator);
+        packageName = packageName.replaceAll("\\.", StringPool.BACK_SLASH + File.separator);
         return parentDir + packageName;
     }
 
     /**
-     * <p>
      * 连接父子包名
-     * </p>
      *
-     * @param parent 父包名
+     * @param parent     父包名
      * @param subPackage 子包名
      * @return 连接后的包名
      */
@@ -720,33 +634,29 @@ public class ConfigBuilder {
         if (StringUtils.isEmpty(parent)) {
             return subPackage;
         }
-        return parent + "." + subPackage;
+        return parent + StringPool.DOT + subPackage;
     }
 
     /**
-     * <p>
      * 处理字段名称
-     * </p>
      *
      * @return 根据策略返回处理后的名称
      */
     private String processName(String name, NamingStrategy strategy) {
-        return processName(name, strategy, this.strategyConfig.getFieldPrefix());
+        return processName(name, strategy, strategyConfig.getFieldPrefix());
     }
 
     /**
-     * <p>
      * 处理表/字段名称
-     * </p>
      *
-     * @param name
-     * @param strategy
-     * @param prefix
+     * @param name     ignore
+     * @param strategy ignore
+     * @param prefix   ignore
      * @return 根据策略返回处理后的名称
      */
     private String processName(String name, NamingStrategy strategy, String[] prefix) {
         boolean removePrefix = false;
-        if (prefix != null && prefix.length >= 1) {
+        if (prefix != null && prefix.length != 0) {
             removePrefix = true;
         }
         String propertyName;
@@ -766,22 +676,6 @@ public class ConfigBuilder {
             propertyName = name;
         }
         return propertyName;
-    }
-
-    /**
-     * <p>
-     * 获取当前的SQL类型
-     * </p>
-     *
-     * @return DB类型
-     */
-    private QuerySQL getQuerySQL(DbType dbType) {
-        for (QuerySQL qs : QuerySQL.values()) {
-            if (qs.getDbType().equals(dbType.getValue())) {
-                return qs;
-            }
-        }
-        return QuerySQL.MYSQL;
     }
 
     public StrategyConfig getStrategyConfig() {
@@ -810,5 +704,4 @@ public class ConfigBuilder {
         this.injectionConfig = injectionConfig;
         return this;
     }
-
 }

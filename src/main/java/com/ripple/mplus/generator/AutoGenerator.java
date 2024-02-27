@@ -1,34 +1,19 @@
-/**
- * Copyright (c) 2011-2020, hubin (jobob@qq.com).
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not
- * use this file except in compliance with the License. You may obtain a copy of
- * the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
- * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
- * License for the specific language governing permissions and limitations under
- * the License.
- */
 package com.ripple.mplus.generator;
 
-import com.baomidou.mybatisplus.activerecord.Model;
-import com.baomidou.mybatisplus.annotations.TableLogic;
-import com.baomidou.mybatisplus.annotations.TableName;
-import com.baomidou.mybatisplus.annotations.Version;
-import com.baomidou.mybatisplus.toolkit.StringUtils;
-import com.ripple.mplus.generator.config.*;
 import com.ripple.mplus.generator.config.builder.ConfigBuilder;
-import com.ripple.mplus.generator.config.po.TableField;
-import com.ripple.mplus.generator.config.po.TableInfo;
 import com.ripple.mplus.generator.engine.AbstractTemplateEngine;
 import com.ripple.mplus.generator.engine.VelocityTemplateEngine;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.baomidou.mybatisplus.annotation.TableLogic;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableField;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 
 import java.io.Serializable;
 import java.util.List;

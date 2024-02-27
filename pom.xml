@@ -7,7 +7,7 @@
 	<groupId>com.ripple.mplus.support</groupId>
 	<artifactId>mplus-support</artifactId>
 	<name>mplus-support</name>
-	<version>1.0.7</version>
+	<version>1.0.8</version>
 	<url>http://maven.apache.org</url>
 
 	<parent>
@@ -19,8 +19,8 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<java.version>1.7</java.version>
-		<mybatis-plus-boot-starter.version>2.1.9</mybatis-plus-boot-starter.version>
+		<java.version>1.8</java.version>
+		<mybatis-plus-boot-starter.version>3.1.0</mybatis-plus-boot-starter.version>
 	</properties>
 
 	<dependencies>
@@ -28,18 +28,22 @@
 			<groupId>com.baomidou</groupId>
 			<artifactId>mybatis-plus-boot-starter</artifactId>
 			<version>${mybatis-plus-boot-starter.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.baomidou</groupId>
-					<artifactId>mybatis-plus-generate</artifactId>
-				</exclusion>
-			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.baomidou</groupId>
+			<artifactId>mybatis-plus-generator</artifactId>
+			<version>${mybatis-plus-boot-starter.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.velocity</groupId>
 			<artifactId>velocity</artifactId>
 			<version>1.7</version>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.47</version>
 		</dependency>
 	</dependencies>
 
