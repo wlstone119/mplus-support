@@ -71,14 +71,14 @@ public class Generator {
                                 .setSuperServiceClass("com.baomidou.mybatisplus.extension.service.IService")
                                 // 自定义 service 实现类父类
                                 .setSuperServiceImplClass("com.baomidou.mybatisplus.extension.service.impl.ServiceImpl")
+                                // 【实体】是否为lombok模型（默认 false）<a href="https://projectlombok.org/">document</a>
+                                .setEntityLombokModel(true)
                         // 【实体】是否生成字段常量（默认 false）
                         // public static final String ID = "test_id";
                         // .setEntityColumnConstant(true)
                         // 【实体】是否为构建者模型（默认 false）
                         // public User setName(String name) {this.name = name; return this;}
                         // .setEntityBuilderModel(true)
-                        // 【实体】是否为lombok模型（默认 false）<a href="https://projectlombok.org/">document</a>
-                        // .setEntityLombokModel(true)
                         // Boolean类型字段是否移除is前缀处理
                         // .setEntityBooleanColumnRemoveIsPrefix(true)
                         // .setRestControllerStyle(true)
@@ -93,10 +93,9 @@ public class Generator {
                                 .setServiceImpl(null).setController(null)
 
                         );
-
                         // 包配置
                         add(new PackageConfig().setModuleName("AppFundBillService-infrastructure.src.main.resources")
-                                .setParent("")// 自定义包路径//
+                                .setParent(null)// 自定义包路径//
                                 // 自定义包路径
                                 .setXml(mapperDir).setEntity(null).setMapper(null).setService(null).setServiceImpl(null)
                                 .setController(null));
@@ -111,8 +110,8 @@ public class Generator {
                         }
                         if (false) {
                             // 包配置
-                            add(new PackageConfig().setModuleName("ripple-webapp.src.main.java")
-                                    .setParent("com.xdong.ripple")// 自定义包路径// 自定义包路径
+                            add(new PackageConfig().setModuleName(null)
+                                    .setParent("ripple-webapp.src.main.java.com.ripple")// 自定义包路径// 自定义包路径
                                     .setController("controller.app." + dir)// 这里是控制器包名，默认 web
                                     .setService(null).setServiceImpl(null).setEntity(null).setMapper(null).setXml(null));
                         }
@@ -140,7 +139,7 @@ public class Generator {
                 ).setTemplate(
                         // 关闭默认 xml 生成，调整生成 至 根目录
                         new TemplateConfig()
-                                .setXml("/templates/mapper.xml.vm")
+                        //.setXml("/templates/mapper.xml.vm")
                         // 自定义模板配置，模板可以参考源码 /mybatis-plus/src/main/resources/template 使用 copy
                         // 至您项目 src/main/resources/template 目录下，模板名称也可自定义如下配置：
                         // .setController("...");
