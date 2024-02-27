@@ -1,5 +1,10 @@
 package com.ripple.mplus.generator;
 
+import com.baomidou.mybaitsplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.ripple.mplus.generator.config.builder.ConfigBuilder;
 import com.ripple.mplus.generator.engine.AbstractTemplateEngine;
 import com.ripple.mplus.generator.engine.VelocityTemplateEngine;
@@ -11,7 +16,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.baomidou.mybatisplus.generator.config.*;
 import com.baomidou.mybatisplus.generator.config.po.TableField;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 
