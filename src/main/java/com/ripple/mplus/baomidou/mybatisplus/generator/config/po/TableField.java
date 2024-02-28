@@ -1,4 +1,4 @@
-package com.baomidou.mybatisplus.generator.config.po;
+package com.ripple.mplus.baomidou.mybatisplus.generator.config.po;
 
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
@@ -9,13 +9,6 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.util.Map;
-
-/**
- * 表字段信息
- *
- * @author YangHu
- * @since 2016-12-03
- */
 @Data
 @Accessors(chain = true)
 public class TableField {

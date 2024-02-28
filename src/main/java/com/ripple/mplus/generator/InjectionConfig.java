@@ -3,8 +3,7 @@ package com.ripple.mplus.generator;
 import java.util.List;
 import java.util.Map;
 
-import com.baomidou.mybatisplus.generator.config.FileOutConfig;
-
+import com.ripple.mplus.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.ripple.mplus.generator.config.IFileCreate;
 import com.ripple.mplus.generator.config.builder.ConfigBuilder;
 

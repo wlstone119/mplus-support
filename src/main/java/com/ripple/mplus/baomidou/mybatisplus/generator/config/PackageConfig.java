@@ -1,4 +1,4 @@
-package com.baomidou.mybaitsplus.generator.config;
+package com.ripple.mplus.baomidou.mybatisplus.generator.config;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

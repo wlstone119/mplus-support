@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.ripple.mplus.baomidou.mybatisplus.generator.config.FileOutConfig;
+import com.ripple.mplus.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.ripple.mplus.generator.InjectionConfig;
 import com.ripple.mplus.generator.config.builder.ConfigBuilder;
 import org.slf4j.Logger;
@@ -18,10 +20,8 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.extension.toolkit.PackageHelper;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
-import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
 
 /**

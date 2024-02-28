@@ -1,6 +1,6 @@
 package com.ripple.mplus.demo;
 
-import com.baomidou.mybaitsplus.generator.config.PackageConfig;
+import com.ripple.mplus.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
