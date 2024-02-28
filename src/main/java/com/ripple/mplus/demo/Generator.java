@@ -49,7 +49,8 @@ public class Generator {
                         new DataSourceConfig().setDbType(DbType.MYSQL)// 数据库类型
                                 .setTypeConvert(new MySqlTypeConvert() {
                                     // 自定义数据库表字段类型转换【可选】
-                                    public IColumnType processTypeConvert(String fieldType) {
+                                    @Override
+                                    public IColumnType processTypeConvert(GlobalConfig globalConfig, String fieldType) {
                                         System.out.println("转换类型：" + fieldType);
                                         return super.processTypeConvert(globalConfig, fieldType);
                                     }

@@ -17,7 +17,7 @@ public class MainGenerator {
         String author = "wanglei";
 
         // 本地项目路径：绝对路径
-        String projectUrl = "/Users/wanglei/IdeaProjects/AppFundBillService2";
+        String projectUrl = "/Users/wanglei/IdeaProjects/X";
 
         // 前缀：t_打头的表名需要改（TIService -> IService）
         String tablePrefix = "t_";
@@ -57,11 +57,11 @@ public class MainGenerator {
     private static String[] jdbc(String dir){
         switch(dir){
             case "fundbase":
-                return new String[]{"jdbc:mysql://10.69.35.51:3658/fund_base?socketTimeout=5000&connectTimeout=5000", "fund_base_user", "d@fT4s$D5Gt"};
+                return new String[]{"jdbc:mysql://X:X/X?socketTimeout=5000&connectTimeout=5000", "X", "X"};
             case "originalbill":
-                return new String[]{"jdbc:mysql://10.69.35.51:3658/fund_base?socketTimeout=5000&connectTimeout=5000", "fund_base_user", "d@fT4s$D5Gt"};
+                return new String[]{"jdbc:mysql://X:X/X?socketTimeout=5000&connectTimeout=5000", "X", "X"};
             case "standardbill":
-                return new String[]{"jdbc:mysql://10.69.35.51:3658/fund_base?socketTimeout=5000&connectTimeout=5000", "fund_base_user", "d@fT4s$D5Gt"};
+                return new String[]{"jdbc:mysql://X:X/X?socketTimeout=5000&connectTimeout=5000", "X", "X"};
             default :
                 throw new RuntimeException("目录错误");
         }
