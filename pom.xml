@@ -7,7 +7,7 @@
 	<groupId>com.ripple.mplus.support</groupId>
 	<artifactId>mplus-support</artifactId>
 	<name>mplus-support</name>
-	<version>1.1.2</version>
+	<version>1.1.3</version>
 	<url>http://maven.apache.org</url>
 
 	<parent>
@@ -93,14 +93,7 @@
 
 	<!-- 用于上传远程maven私服的配置 -->
     <distributionManagement>
-        <snapshotRepository>
-            <id>archjava</id>
-            <url>http://maven.hellobike.cn/nexus/content/repositories/carkey-archjava-snapshots/</url>
-        </snapshotRepository>
-        <repository>
-            <id>archjava</id>
-            <url>http://maven.hellobike.cn/nexus/content/repositories/carkey-archjava-release/</url>
-        </repository>
+
     </distributionManagement>
 
 </project>
